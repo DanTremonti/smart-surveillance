@@ -9,7 +9,7 @@ It also has out-of-box support for retraining on Google Open Images dataset.
 
 
 ## Dependencies
-1. Python 3.6+
+1. Python 3.6+ (3.6.13)
 2. OpenCV
 3. Pytorch 1.0 or Pytorch 0.4+
 4. Caffe2
@@ -24,7 +24,7 @@ It also has out-of-box support for retraining on Google Open Images dataset.
 ```bash
 wget -P models https://storage.googleapis.com/models-hao/mb2-ssd-lite-mp-0_686.pth
 wget -P models https://storage.googleapis.com/models-hao/voc-model-labels.txt
-python run_ssd_live_demo.py mb2-ssd-lite models/mb2-ssd-lite-mp-0_686.pth models/voc-model-labels.txt 
+python main.py <optional-video/image-path>
 ```
 
 The above MobileNetV2 SSD-Lite model is not ONNX-Compatible, as it uses Relu6 which is not supported by ONNX.

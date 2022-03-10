@@ -1,4 +1,5 @@
-# Single Shot MultiBox Detector Implementation in Pytorch
+# Smart Surveillance Using Single Shot MultiBox Detector Implementation with Pytorch
+
 
 This repo implements [SSD (Single Shot MultiBox Detector)](https://arxiv.org/abs/1512.02325). The implementation is heavily influenced by the projects [ssd.pytorch](https://github.com/amdegroot/ssd.pytorch) and [Detectron](https://github.com/facebookresearch/Detectron).
 The design goal is modularity and extensibility.
@@ -8,17 +9,14 @@ Currently, it has MobileNetV1, MobileNetV2, and VGG based SSD/SSD-Lite implement
 It also has out-of-box support for retraining on Google Open Images dataset.
 
 
-## Dependencies
-1. Python 3.6+ (3.6.13)
-2. OpenCV
-3. Pytorch 1.0 or Pytorch 0.4+
-4. Caffe2
-5. Pandas
-6. Boto3 if you want to train models on the Google OpenImages Dataset.
+## Install Dependencies (python3 <= 3.8) 
+```bash
+pip install -r requirements.txt
+```
 
 ## Run the demo
 
-
+---
 ### Run the live MobileNetV2 SSD Lite demo
 
 ```bash
@@ -34,10 +32,11 @@ the corresponding Pytorch and Caffe2 models.
 You may notice MobileNetV2 SSD/SSD-Lite is slower than MobileNetV1 SSD/Lite on PC. However, MobileNetV2 is faster on mobile devices.
 
 ## Pretrained Models
+---
 
 ### MobileNetV2 SSD-Lite
 
-URL: https://storage.googleapis.com/models-hao/mb2-ssd-lite-mp-0_686.pth
+[MB2 Model](https://storage.googleapis.com/models-hao/mb2-ssd-lite-mp-0_686.pth)
 
 ```
 Average Precision Per-class:

@@ -30,12 +30,17 @@ while True:
     ret, orig_image = cap.read()
     if orig_image is None:
         continue
+    # adjust resolution here
+    orig_image = cv2.resize(orig_image, (852, 480))
     image = cv2.cvtColor(orig_image, cv2.COLOR_BGR2RGB)
     timer.start()
     boxes, labels, probs = predictor.predict(image, 10, 0.4)
+    # adjust framerate here
     sleep(0.05)
     interval = timer.end()
     print('Time: {:.2f}s, Detect Objects: {:d}.'.format(interval, labels.size(0)))
+    threat_class_list = ['person', 'gun', 'bottle', 'dog']
+    detected_objects = []
     for i in range(boxes.size(0)):
         box = boxes[i, :]
         label = f"{class_names[labels[i]]}: {probs[i]:.2f}"
@@ -50,6 +55,12 @@ while True:
                     1,  # font scale
                     (255, 0, 255),
                     2)  # line type
+
+        # alert when threat detected
+        detected_objects.append(class_names[labels[i]])
+    # move this to a new module
+    threat_class_detected = set(threat_class_list).intersection(detected_objects)
+    print(f"Threat detected: {', '.join(list(threat_class_detected))}\n")
     cv2.imshow('annotated', orig_image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

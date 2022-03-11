@@ -8,28 +8,40 @@ Currently, it has MobileNetV1, MobileNetV2, and VGG based SSD/SSD-Lite implement
 
 It also has out-of-box support for retraining on Google Open Images dataset.
 
+## Dependencies
+1. Python 3.6+ (3.6.13)
+2. OpenCV
+3. Pytorch 1.0 or Pytorch 0.4+
+4. Caffe2
+5. Pandas
+6. Boto3 if you want to train models on the Google OpenImages Dataset.
 
-## Install Dependencies (python3 <= 3.8) 
+## Initial setup
+---
+
+Setup a virtual environment for the installation. Here, Anaconda is used.
+Run the following commands to install th required dependencies.
+
 ```bash
+conda create -y -n <env-name> python=3.8
 pip install -r requirements.txt
 ```
 
-## Run the demo
-
----
-### Run the live MobileNetV2 SSD Lite demo
-
+Setup your credentials such as email id and mobile number to receive alerts on threat detection.
 ```bash
-wget -P models https://storage.googleapis.com/models-hao/mb2-ssd-lite-mp-0_686.pth
-wget -P models https://storage.googleapis.com/models-hao/voc-model-labels.txt
-python main.py <optional-video/image-path>
+python config/setup_credentials.py
 ```
 
-The above MobileNetV2 SSD-Lite model is not ONNX-Compatible, as it uses Relu6 which is not supported by ONNX.
-The code supports the ONNX-Compatible version. Once I have trained a good enough MobileNetV2 model with Relu, I will upload
-the corresponding Pytorch and Caffe2 models.
+## Run the application
+---
 
-You may notice MobileNetV2 SSD/SSD-Lite is slower than MobileNetV1 SSD/Lite on PC. However, MobileNetV2 is faster on mobile devices.
+To run the application, execute the following command.
+In case a camera is not used for input, a video file's path can be passed as an argument in the command.
+```bash
+python main.py <optional-video-filepath>
+```
+
+MobileNetV2 SSD/SSD-Lite is slower than MobileNetV1 SSD/Lite on PC. However, MobileNetV2 is faster on mobile devices.
 
 ## Pretrained Models
 ---

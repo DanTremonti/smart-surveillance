@@ -1,9 +1,15 @@
 from time import sleep
 from vision.ssd.mobilenet_v2_ssd_lite import create_mobilenetv2_ssd_lite, create_mobilenetv2_ssd_lite_predictor
 from vision.utils.misc import Timer
+from config.setup_credentials import setup_credentials
 import cv2
 import sys
 
+
+if(input("Do you want to view/modify alert credentials? (y/n): ") == "y"):
+    setup_credentials()
+
+print("\nStarting the program...")
 if len(sys.argv) < 1:
     print('Usage: python run_ssd_example.py <net type>  <model path> <label path> [video file]')
     sys.exit(0)

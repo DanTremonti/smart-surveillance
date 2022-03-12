@@ -4,7 +4,7 @@
 This repo implements [SSD (Single Shot MultiBox Detector)](https://arxiv.org/abs/1512.02325). The implementation is heavily influenced by the projects [ssd.pytorch](https://github.com/amdegroot/ssd.pytorch) and [Detectron](https://github.com/facebookresearch/Detectron).
 The design goal is modularity and extensibility.
 
-Currently, it has MobileNetV1, MobileNetV2, and VGG based SSD/SSD-Lite implementations. 
+It has MobileNetV2 SSD/SSD-Lite implementations. 
 
 It also has out-of-box support for retraining on Google Open Images dataset.
 
@@ -23,13 +23,8 @@ Setup a virtual environment for the installation. Here, Anaconda is used.
 Run the following commands to install th required dependencies.
 
 ```bash
-conda create -y -n <env-name> python=3.8
+conda create -y -n <env-name> python=3.6.13
 pip install -r requirements.txt
-```
-
-Setup your credentials such as email id and mobile number to receive alerts on threat detection.
-```bash
-python config/setup_credentials.py
 ```
 
 ## Run the application
@@ -40,6 +35,8 @@ In case a camera is not used for input, a video file's path can be passed as an 
 ```bash
 python main.py <optional-video-filepath>
 ```
+
+Setup your credentials such as email id and mobile number to receive alerts on threat detection.
 
 MobileNetV2 SSD/SSD-Lite is slower than MobileNetV1 SSD/Lite on PC. However, MobileNetV2 is faster on mobile devices.
 

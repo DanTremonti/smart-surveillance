@@ -1,4 +1,6 @@
 [user]
-name = "sampleuser"
-email = "user@email.com"
-mobile = "1234567890"
+name = "user"
+email = "user@gmail.com"
+password = "password"
+port = 587
+mobile = 1234567890

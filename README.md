@@ -1,4 +1,6 @@
-[![issue](https://img.shields.io/github/issues/detail/state/DanTremonti/smart-surveillance/1)](https://github.com/DanTremonti/smart-surveillance/issues)
+[![IEEE paper](https://img.shields.io/badge/IEEEpaper-IEEEpaper-yellow?style=for-the-badge)](https://1drv.ms/w/s!AlWUeQnaZ2H8jDTGY8dojf4f6fNf?e=2ORaIg)
+[![size](https://img.shields.io/github/repo-size/DanTremonti/smart-surveillance?style=for-the-badge)]
+[![issue](https://img.shields.io/github/issues/detail/state/DanTremonti/smart-surveillance/1?style=for-the-badge)](https://github.com/DanTremonti/smart-surveillance/issues)
 
 # Smart Surveillance Using Single Shot MultiBox Detector Implementation with Pytorch
 

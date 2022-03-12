@@ -1,3 +1,5 @@
+[![issue](https://img.shields.io/github/issues/detail/state/DanTremonti/smart-surveillance/1)](https://github.com/DanTremonti/smart-surveillance/issues)
+
 # Smart Surveillance Using Single Shot MultiBox Detector Implementation with Pytorch
 
 

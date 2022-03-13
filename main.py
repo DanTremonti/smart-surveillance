@@ -55,7 +55,7 @@ while True:
     timer.start()
     boxes, labels, probs = predictor.predict(image, 10, 0.4)
     # adjust framerate here
-    # sleep(0.05)
+    sleep(0.025)
     interval = timer.end()
     print('Time: {:.2f}s, Detect Objects: {:d}.'.format(interval, labels.size(0)))
 

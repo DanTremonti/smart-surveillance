@@ -78,8 +78,8 @@ while True:
         detected_objects.append(class_names[labels[i]])
     # move this to a new module
     threat_class_detected = set(threat_class_list).intersection(detected_objects)
-    cv2.imshow('annonated', orig_image)
-    cv2.setWindowTitle('annonated', windowTitle)
+    cv2.imshow('annotated', orig_image)
+    cv2.setWindowTitle('annotated', windowTitle)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 cap.release()

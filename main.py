@@ -39,7 +39,8 @@ timer = Timer()
 while True:
     ret, orig_image = cap.read()
     if orig_image is None:
-        continue
+        print("Feed unavailabe. Exiting...")
+        break
 
     # Display and classification variables
     threat_class_list = ['person', 'gun', 'knife']

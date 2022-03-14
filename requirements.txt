@@ -3,3 +3,4 @@ opencv-python==4.5.5.64
 torch==1.10.2
 torchvision==0.11.3
 wheel==0.37.1
+twilio==7.7.1

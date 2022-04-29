@@ -4,10 +4,13 @@ from vision.utils.misc import Timer
 from config.setup_credentials import setup_credentials
 import cv2
 import sys
+from twilio_mod.send import send
+from twilio_mod.Threat import Threat
 
+messaging = send()
 
-if(input("Do you want to view/modify alert credentials? (y/n): ") == "y"):
-    setup_credentials()
+# if(input("Do you want to view/modify alert credentials? (y/n): ") == "y"):
+#     setup_credentials()
 
 print("\nStarting the program...")
 if len(sys.argv) < 1:
@@ -60,12 +63,19 @@ while True:
     interval = timer.end()
     print('Time: {:.2f}s, Detect Objects: {:d}.'.format(interval, labels.size(0)))
 
+    current_threat = Threat("Test", 3)
+    messaging.sendMessage(current_threat)
+    messaging.can_send_message = False
+
     for i in range(boxes.size(0)):
         box = boxes[i, :]
         label = f"{class_names[labels[i]]}: {probs[i]:.2f}"
         if class_names[labels[i]] in threat_class_list :
             boxColor = (0, 0, 255)
             windowTitle = f"Threat detected: {''.join(class_names[labels[i]])}"
+            current_threat.type = ''.join(class_names[labels[i]])
+            messaging.sendMessage(current_threat)
+            messaging.can_send_message = False
         cv2.rectangle(
             img=orig_image, pt1=(int(box[0]), int(box[1])),
             pt2=(int(box[2]), int(box[3])), color=boxColor,

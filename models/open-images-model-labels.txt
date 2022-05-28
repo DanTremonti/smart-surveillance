@@ -1,0 +1,10 @@
+BACKGROUND
+Bomb
+Bow and arrow
+Dagger
+Hammer
+Handgun
+Rifle
+Shotgun
+Sword
+Weapon

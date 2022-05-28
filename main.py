@@ -7,6 +7,9 @@ import sys
 from twilio_mod.send import send
 from twilio_mod.Threat import Threat
 
+import os 
+
+
 messaging = send()
 
 # if(input("Do you want to view/modify alert credentials? (y/n): ") == "y"):
@@ -16,8 +19,10 @@ print("\nStarting the program...")
 if len(sys.argv) < 1:
     print('Usage: python run_ssd_example.py <net type>  <model path> <label path> [video file]')
     sys.exit(0)
-model_path = "models/mb2-ssd-lite-mp-0_686.pth"
-label_path = "models/voc-model-labels.txt"
+# model_path = "models/mb2-ssd-lite-mp-0_686.pth"
+# label_path = "models/voc-model-labels.txt"
+model_path="models/mb2-ssd-lite-Epoch-199-Loss-7.883828668033376.pth"
+label_path="models/open-images-model-labels.txt"
 
 if len(sys.argv) >= 2:
     cap = cv2.VideoCapture(sys.argv[1])  # capture from file
@@ -44,9 +49,8 @@ while True:
     if orig_image is None:
         print("Feed unavailabe. Exiting...")
         break
-
     # Display and classification variables
-    threat_class_list = ['person', 'gun', 'knife']
+    threat_class_list = ['Handgun','person', 'gun', 'knife']
     windowTitle = "No Threats"
     detected_objects = []
     boxColor = (255, 255, 0)
@@ -61,11 +65,9 @@ while True:
     # adjust framerate here
     sleep(0.025)
     interval = timer.end()
-    print('Time: {:.2f}s, Detect Objects: {:d}.'.format(interval, labels.size(0)))
+    # print('Time: {:.2f}s, Detect Objects: {:d}.'.format(interval, labels.size(0)))
 
-    current_threat = Threat("Test", 3)
-    messaging.sendMessage(current_threat)
-    messaging.can_send_message = False
+    current_threat = Threat("None", 0)
 
     for i in range(boxes.size(0)):
         box = boxes[i, :]
@@ -74,8 +76,11 @@ while True:
             boxColor = (0, 0, 255)
             windowTitle = f"Threat detected: {''.join(class_names[labels[i]])}"
             current_threat.type = ''.join(class_names[labels[i]])
-            messaging.sendMessage(current_threat)
-            messaging.can_send_message = False
+            current_threat.level = 3
+            user = os.getlogin()
+            path = f"/home/{user}/Downloads/threat-img.jpg"
+            cv2.imwrite(path, orig_image)
+            messaging.sendAlert(path, current_threat)
         cv2.rectangle(
             img=orig_image, pt1=(int(box[0]), int(box[1])),
             pt2=(int(box[2]), int(box[3])), color=boxColor,

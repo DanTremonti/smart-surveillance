@@ -67,7 +67,7 @@ while True:
     timer.start()
     boxes, labels, probs = predictor.predict(image, 10, 0.4)
     # adjust framerate here
-    sleep(0.025)
+    # sleep(0.025)
     interval = timer.end()
     # print('Time: {:.2f}s, Detect Objects: {:d}.'.format(interval, labels.size(0)))
 
@@ -78,7 +78,7 @@ while True:
         label = f"{class_names[labels[i]]}: {probs[i]:.2f}"
         if class_names[labels[i]] in threat_class_list :
             boxColor = (0, 0, 255)
-            windowTitle = f"Threat detected: {''.join(class_names[labels[i]])}"
+            windowTitle = f"T̷̢̢̡̧͓͙̖̯̪͚̫̥̣̠͈́̈̂̿̂͒͒ĥ̴̛̘̩̬̌́̈̅͗̇̒́̿̓͐͂͑ͅŗ̵͉̙̩̟̮̠̆͊̏̌̓̿̊̈́͜e̵̘͆̉̍͜a̶̡̨̛̳̭̞̣̪͍͚̻̖̼̪̬̎͗̔ͅṭ̶̨̛͈̻̥͚̱̬̀̇̈̇͐̃̌͆̈́̿͋̾̌ ̴̨̫͕̯͓̳͉͇̣͕͇̟̌̿͌͑̿̋̕̚D̸͇͔͉͓͙͂e̷̠̫̖̥̣̦͑̿̔̂̓͂ͅt̸̳͙̘̥͂͐̉̚ë̶̙͕̞̼͚͈́̾͌̋̃̑͛̀͜͝c̸̡̡̨̪̟̻̰̝̥̥͚̼̰̜̍̈́t̴͍̝̖̘̮̦̙̭̏̒̌̓͠ë̵͖̝̲̘̯̟̝̭͚̏̏̊̔̈̍͑̀̑͘̚͜͠͝͝ͅd̸̠̦̥̆̉̇̃̋̅: {''.join(class_names[labels[i]])}"
         cv2.rectangle(
             img=orig_image, pt1=(int(box[0]), int(box[1])),
             pt2=(int(box[2]), int(box[3])), color=boxColor,
@@ -94,14 +94,16 @@ while True:
         # alert when threat detected
         detected_objects.append(class_names[labels[i]])
     # move this to a new module
-    
+
+    threat_class_detected = set(threat_class_list).intersection(detected_objects)
+
     #Send Alert if required
     currTime = time.time()
     if currTime - oldTime > 39 :
         messaging.can_send_message = True 
         oldTime = currTime
-    current_threat.type = ','.join(detected_objects)
-    current_threat.level = len(detected_objects)
+    current_threat.type = ','.join(threat_class_detected)
+    current_threat.level = len(threat_class_detected)
     if current_threat.level > threat_threshold:
         user = os.getlogin()
         path = f"/home/{user}/Downloads/threat-img.jpg"
@@ -109,8 +111,6 @@ while True:
         messaging.sendAlert(path, current_threat)
 
 
-
-    threat_class_detected = set(threat_class_list).intersection(detected_objects)
     cv2.imshow('annotated', orig_image)
     cv2.setWindowTitle('annotated', windowTitle)
     if cv2.waitKey(1) & 0xFF == ord('q'):

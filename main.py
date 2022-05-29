@@ -6,6 +6,7 @@ import cv2
 import sys
 from twilio_mod.send import send
 from twilio_mod.Threat import Threat
+import time
 
 import os 
 
@@ -19,10 +20,10 @@ print("\nStarting the program...")
 if len(sys.argv) < 1:
     print('Usage: python run_ssd_example.py <net type>  <model path> <label path> [video file]')
     sys.exit(0)
-# model_path = "models/mb2-ssd-lite-mp-0_686.pth"
-# label_path = "models/voc-model-labels.txt"
-model_path="models/mb2-ssd-lite-Epoch-199-Loss-7.883828668033376.pth"
-label_path="models/open-images-model-labels.txt"
+model_path = "models/mb2-ssd-lite-mp-0_686.pth"
+label_path = "models/voc-model-labels.txt"
+# model_path="models/mb2-ssd-lite-Epoch-199-Loss-7.883828668033376.pth"
+# label_path="models/open-images-model-labels.txt"
 
 if len(sys.argv) >= 2:
     cap = cv2.VideoCapture(sys.argv[1])  # capture from file
@@ -44,6 +45,9 @@ except:
 predictor = create_mobilenetv2_ssd_lite_predictor(net, candidate_size=200)
 
 timer = Timer()
+threat_threshold = 0
+oldTime = time.time()
+
 while True:
     ret, orig_image = cap.read()
     if orig_image is None:
@@ -75,12 +79,6 @@ while True:
         if class_names[labels[i]] in threat_class_list :
             boxColor = (0, 0, 255)
             windowTitle = f"Threat detected: {''.join(class_names[labels[i]])}"
-            current_threat.type = ''.join(class_names[labels[i]])
-            current_threat.level = 3
-            user = os.getlogin()
-            path = f"/home/{user}/Downloads/threat-img.jpg"
-            cv2.imwrite(path, orig_image)
-            messaging.sendAlert(path, current_threat)
         cv2.rectangle(
             img=orig_image, pt1=(int(box[0]), int(box[1])),
             pt2=(int(box[2]), int(box[3])), color=boxColor,
@@ -96,6 +94,22 @@ while True:
         # alert when threat detected
         detected_objects.append(class_names[labels[i]])
     # move this to a new module
+    
+    #Send Alert if required
+    currTime = time.time()
+    if currTime - oldTime > 39 :
+        messaging.can_send_message = True 
+        oldTime = currTime
+    current_threat.type = ','.join(detected_objects)
+    current_threat.level = len(detected_objects)
+    if current_threat.level > threat_threshold:
+        user = os.getlogin()
+        path = f"/home/{user}/Downloads/threat-img.jpg"
+        cv2.imwrite(path, orig_image)
+        messaging.sendAlert(path, current_threat)
+
+
+
     threat_class_detected = set(threat_class_list).intersection(detected_objects)
     cv2.imshow('annotated', orig_image)
     cv2.setWindowTitle('annotated', windowTitle)
